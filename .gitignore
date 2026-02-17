@@ -1,0 +1,31 @@
+# python environment folder
+env/
+
+# external dependencies
+extern/*
+
+# hidden directories
+.*/
+
+# build files
+build/
+
+
+# temporary files and directories
+*.tmp
+tmp/
+
+# plots and data
+#data/
+#figures/
+*.h5
+*.png
+*.pdf
+*.jpg
+
+# compiled libraries and executables
+*.so
+*.x
+
+# python caches
+__pycache__/

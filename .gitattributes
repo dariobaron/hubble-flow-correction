@@ -1,0 +1,5 @@
+# filter-out the output when pushing jupyter notebooks
+*.ipynb filter=strip-notebook-output
+
+# adding data files to be preserved to git lfs
+*.preserve filter=lfs diff=lfs merge=lfs -text
