@@ -1,9 +1,6 @@
 # python environment folder
 env/
 
-# external dependencies
-extern/*
-
 # hidden directories
 .*/
 

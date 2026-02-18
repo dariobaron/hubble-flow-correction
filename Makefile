@@ -1,6 +1,4 @@
 # to edit:
-#ARMAINCPATH = extern/armadillo/include/
-#ENSMALLENCPATH = extern/ensmallen/include/
 MIXLIGHTLIBPATH = extern/mixlightlib/
 CXX = g++
 
@@ -24,7 +22,7 @@ NUMPYINCLUDEPATH = $(shell python -c "import numpy; print(numpy.get_include())")
 PYTHONRUNTIMELIB := $(shell python-config --ldflags)
 
 WARNINGS = -Wall -Wextra -Werror -pedantic -pedantic-errors -Wpedantic
-INCLUDEPATH =  $(PYBIND11INCLUDEPATH) -I$(NUMPYINCLUDEPATH) -I$(MIXLIGHTLIBPATH)# -I$(ARMAINCPATH) -I$(ENSMALLENCPATH)
+INCLUDEPATH = -I$(MIXLIGHTLIBPATH) $(PYBIND11INCLUDEPATH) -I$(NUMPYINCLUDEPATH)
 LINKINGLIBS = -lopenblas -llapack $(PYTHONRUNTIMELIB)
 COMPILATIONFLAGS = -std=c++20 -O3 -fPIC -shared -fconcepts-diagnostics-depth=2 -fvisibility=hidden -MMD -MP
 
@@ -35,9 +33,6 @@ all: $(COMPILEDMODULES)
 makedirs:
 	mkdir -p $(SOURCE_DIR) $(BUILD_DIR) $(TARGET_DIR) $(OTHER_DIRS)
 
-#main: main.cpp
-#	$(CXX) -o main.x main.cpp -std=c++20 -O3 $(WARNINGS) -lopenblas -llapack -I$(ARMAINCPATH) -I$(ENSMALLENCPATH) -I$(MIXLIGHTLIBPATH)
-
 $(MODULENAMES): % : $(TARGET_DIR)%$(MODULEEXTENSION)
 
 $(TARGET_DIR)%$(MODULEEXTENSION): $(SOURCE_DIR)%.cpp
@@ -45,7 +40,11 @@ $(TARGET_DIR)%$(MODULEEXTENSION): $(SOURCE_DIR)%.cpp
 
 -include $(DEPENDENCIES)
 
-setup: createvenv installlibs initrepo makedirs
+setup: getsubmodules createvenv installlibs initrepo makedirs
+
+getsubmodules:
+	git submodule update --init --recursive
+	git config submodule.recurse true
 
 installlibs: createvenv
 	. env/bin/activate && python -m pip install -r requirements.txt

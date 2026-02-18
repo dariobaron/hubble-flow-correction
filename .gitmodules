@@ -1,0 +1,3 @@
+[submodule "extern/mixlightlib"]
+	path = extern/mixlightlib
+	url = git@github.com:dariobaron/mixlightlib.git
